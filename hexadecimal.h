@@ -10,7 +10,7 @@ private:
     uint32_t data;
 
 public:
-    Hexadecimal();
+    Hexadecimal(u_int32_t input);
     Hexadecimal(std::string input);
 
     std::string convToString();

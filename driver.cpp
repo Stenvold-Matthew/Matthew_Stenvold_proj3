@@ -21,8 +21,10 @@ int main() {
     }
     else {
 
-        Hexadecimal test("0x51");
-        std::cout << test << std::endl;
+        Hexadecimal test("0xA");
+        Hexadecimal test2("0x5");
+        Hexadecimal test3 = test & test2;
+        std::cout << test3 << std::endl;
         /*
         std::string tp, operand, value1, value2, value3;
         // Initializes each register with an empty (0x0000_0000) hexidecimal value
