@@ -19,8 +19,8 @@ public:
     int convToDec(char input);
     char convToHex(int input);
 
-    char getData();
-    std::vector<bool> convToBinary();
+    u_int32_t getData();
+    void operator=(Hexadecimal& inputHex2);
 
     Hexadecimal operator+(Hexadecimal& inputHex2);
     Hexadecimal operator-(Hexadecimal& inputHex2);
@@ -28,8 +28,7 @@ public:
     Hexadecimal operator^(Hexadecimal& inputHex2);
     Hexadecimal operator|(Hexadecimal& inputHex2);
     Hexadecimal operator!();
-    void operator=(Hexadecimal& inputHex2);
-
+    
     Hexadecimal ASR(int numShifts);
     Hexadecimal LSR(int numShifts);
     Hexadecimal LSL(int numShifts);

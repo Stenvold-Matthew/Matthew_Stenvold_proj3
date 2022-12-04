@@ -20,12 +20,7 @@ int main() {
         return 0;
     }
     else {
-
-        Hexadecimal test("0xA");
-        Hexadecimal test2("0x5");
-        Hexadecimal test3 = test & test2;
-        std::cout << test3 << std::endl;
-        /*
+        
         std::string tp, operand, value1, value2, value3;
         // Initializes each register with an empty (0x0000_0000) hexidecimal value
         Hexadecimal r0("0x0");
@@ -94,7 +89,7 @@ int main() {
                 Hexadecimal temp = registers.at(value2) | registers.at(value3);
                 registers.at(value1) = temp;
             }
-
+            /*
             else if(operand == "ASR") {
                 Hexadecimal temp = registers.at(value2).ASR(stoi(value3));
                 registers.at(value1) = temp;
@@ -109,11 +104,11 @@ int main() {
                 Hexadecimal temp = registers.at(value2).LSL(stoi(value3));
                 registers.at(value1) = temp;
             }
-
+            */
             else {
                 std::cout << "This opperand is not recognized" << std::endl;
             }
-
+            
             // Prints the name of each register followed by it's value
             int count = 0;
             for (std::map<std::string,Hexadecimal>::iterator it = registers.begin(); it != registers.end(); it++) {
@@ -126,7 +121,8 @@ int main() {
             }
             std::cout << std::endl << std::endl;
         }
-        */
+        
+        
         // Close the file and end the program
         inFile.close();
     }

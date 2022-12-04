@@ -8,9 +8,11 @@ Hexadecimal::Hexadecimal(u_int32_t input) {
 Hexadecimal::Hexadecimal(std::string input) {
     data = 0;
     int multVal = 1;
+    u_int32_t temp;
     
     for(int i = input.length()-2; i > 0; i--) {
-        data += multVal * convToDec(input.at(i+1));
+        temp = multVal * convToDec(input.at(i+1));
+        data += temp;
         multVal *= 16;
     }
 }
@@ -18,10 +20,9 @@ Hexadecimal::Hexadecimal(std::string input) {
 // Returns the hexidecimal as a string
 std::string Hexadecimal::convToString() {
     std::string str;
-    int test = 1;
     u_int32_t dataCopy = data;
     for(int i = 0; i < 8; i++) {
-        int temp = dataCopy % 16;
+        u_int32_t temp = dataCopy % 16;
         str.insert(0, 1, convToHex(temp));
         dataCopy /= 16;
     }
@@ -33,7 +34,7 @@ u_int32_t Hexadecimal::convToHexFull() {
 }
 
 // Returns the char of the hexidecimal at the val position (0 being first)
-char Hexadecimal::getData() {
+u_int32_t Hexadecimal::getData() {
     return data;
 }
 
