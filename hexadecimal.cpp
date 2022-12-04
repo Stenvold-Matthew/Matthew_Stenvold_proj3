@@ -130,87 +130,35 @@ Hexadecimal Hexadecimal::operator|(Hexadecimal& inputHex2) {
     return hex;
 }
 
-/*
-
 // Rotates right while maintaining the most significant bit
 Hexadecimal Hexadecimal::ASR(int numShifts) {
-    std::vector<bool> binary = convToBinary();
-    bool temp;
-    int tempInt;
-    std::string str;
-
-    // Stores the most significant bit, and then rotates the binary vector right while filling in the empty spaces with that value
-    temp = binary[0];
-    for(int i = 0; i<numShifts; i++) {
-        binary.insert(binary.begin() + 1, temp);
-        binary.pop_back();
+    u_int32_t temp = data;
+    for(int i = 0; i < numShifts; i++) {
+        temp /= 2;
     }
-    // Converts the new binary string to hex and appends it to the string
-    for(int i = 0; i < length; i++) {
-        tempInt = 0;
-        tempInt += binary[4*i] * 8;
-        tempInt += binary[4*i + 1] * 4;
-        tempInt += binary[4*i + 2] * 2;
-        tempInt += binary[4*i + 3];
-        str += std::string{convToHex(tempInt)};
-    }
-    // Creates and returns the new string
-    str.insert(0, "0x");
-    Hexadecimal hex(str);
+    Hexadecimal hex(temp);
     return hex;
 }
 
 // Rotates right while filling in the empty spaces with 0
 Hexadecimal Hexadecimal::LSR(int numShifts) {
-    std::vector<bool> binary = convToBinary();
-    int tempInt;
-    std::string str;
-
-    for(int i = 0; i<numShifts; i++) {
-        binary.insert(binary.begin() + 0, 0);
-        binary.pop_back();
+    u_int32_t temp = data;
+    for(int i = 0; i < numShifts; i++) {
+        temp /= 2;
     }
-    // Converts the new binary string to hex and appends it to the string
-    for(int i = 0; i < length; i++) {
-        tempInt = 0;
-        tempInt += binary[4*i] * 8;
-        tempInt += binary[4*i + 1] * 4;
-        tempInt += binary[4*i + 2] * 2;
-        tempInt += binary[4*i + 3];
-        str += std::string{convToHex(tempInt)};
-    }
-    // Creates and returns the new string
-    str.insert(0, "0x");
-    Hexadecimal hex(str);
+    Hexadecimal hex(temp);
     return hex;
 }
 
 // Rotates left while filling in the empty spaces with 0
 Hexadecimal Hexadecimal::LSL(int numShifts) {
-    std::vector<bool> binary = convToBinary();
-    int tempInt;
-    std::string str;
-
-    for(int i = 0; i<numShifts; i++) {
-        binary.push_back(0);
-        binary.erase(binary.begin() + 0);;
+    u_int32_t temp = data;
+    for(int i = 0; i < numShifts; i++) {
+        temp *= 2;
     }
-    // Converts the new binary string to hex and appends it to the string
-    for(int i = 0; i < length; i++) {
-        tempInt = 0;
-        tempInt += binary[4*i] * 8;
-        tempInt += binary[4*i + 1] * 4;
-        tempInt += binary[4*i + 2] * 2;
-        tempInt += binary[4*i + 3];
-        str += std::string{convToHex(tempInt)};
-    }
-    // Creates and returns the new string
-    str.insert(0, "0x");
-    Hexadecimal hex(str);
+    Hexadecimal hex(temp);
     return hex;
 }
-
-*/
 
 std::ostream& operator<<(std::ostream& os, Hexadecimal& hex) {
     os << "0x" << hex.convToString();

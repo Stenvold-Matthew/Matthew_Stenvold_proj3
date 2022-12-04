@@ -89,12 +89,12 @@ int main() {
                 Hexadecimal temp = registers.at(value2) | registers.at(value3);
                 registers.at(value1) = temp;
             }
-            /*
+            
             else if(operand == "ASR") {
                 Hexadecimal temp = registers.at(value2).ASR(stoi(value3));
                 registers.at(value1) = temp;
             }
-
+            
             else if(operand == "LSR") {
                 Hexadecimal temp = registers.at(value2).LSR(stoi(value3));
                 registers.at(value1) = temp;
@@ -104,7 +104,7 @@ int main() {
                 Hexadecimal temp = registers.at(value2).LSL(stoi(value3));
                 registers.at(value1) = temp;
             }
-            */
+           
             else {
                 std::cout << "This opperand is not recognized" << std::endl;
             }
