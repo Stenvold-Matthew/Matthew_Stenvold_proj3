@@ -20,6 +20,10 @@ int main() {
         return 0;
     }
     else {
+
+        Hexadecimal test("0x51");
+        std::cout << test << std::endl;
+        /*
         std::string tp, operand, value1, value2, value3;
         // Initializes each register with an empty (0x0000_0000) hexidecimal value
         Hexadecimal r0("0x0");
@@ -120,7 +124,7 @@ int main() {
             }
             std::cout << std::endl << std::endl;
         }
-        
+        */
         // Close the file and end the program
         inFile.close();
     }

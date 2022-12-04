@@ -2,46 +2,39 @@
 
 // Constructor that is called by inputing a string formatted as "0x____". Works for any length
 Hexadecimal::Hexadecimal() {
-    length = 8;
-    for(int i = 0; i < length; i++) {
-        data.push_back('0');
-    }
-    insertFiller(8-length);
+    data = 0;
 }
 
 Hexadecimal::Hexadecimal(std::string input) {
-    length = input.length()-2;
-    for(int i = 0; i < length; i++) {
-        data.push_back(input.at(i+2));
+    data = 0;
+    int multVal = 1;
+    
+    for(int i = input.length()-2; i > 0; i--) {
+        data += multVal * convToDec(input.at(i+1));
+        multVal *= 16;
     }
-    insertFiller(8-length);
 }
 
 // Returns the hexidecimal as a string
 std::string Hexadecimal::convToString() {
-    std::string str = "0x";
-    for (int i = 0; i<length; i++) {
-        str.push_back(data[i]);
+    std::string str;
+    int test = 1;
+    u_int32_t dataCopy = data;
+    for(int i = 0; i < 8; i++) {
+        int temp = dataCopy % 16;
+        str.insert(0, std::to_string(temp));
+        dataCopy /= 16;
     }
     return str;
 }
 
-// Inserts num 0s at the beginning of the hexidecimal. For example, using this with the argument 3 on 0x11 would make the hexidecimal 0x00011
-void Hexadecimal::insertFiller(int num) {
-    for(int i=0; i<num; i++) {
-        data.insert(data.begin(), '0');
-        length++;
-    }
-}
-
-// Returns the length of the hexidecimal
-int Hexadecimal::getLength() {
-    return length;
+u_int32_t Hexadecimal::convToHexFull() {
+    return 0;
 }
 
 // Returns the char of the hexidecimal at the val position (0 being first)
-char Hexadecimal::getData(int val) {
-    return data[val];
+char Hexadecimal::getData() {
+    return data;
 }
 
 // Converts a hex value to what it would be in decimal (ie. B = 11)
@@ -96,6 +89,7 @@ char Hexadecimal::convToHex(int input) {
     }
 }
 
+/*
 // Converts the data vector to binary and returns that vector
 std::vector<bool> Hexadecimal::convToBinary() {
     std::vector<bool> output;
@@ -369,14 +363,9 @@ Hexadecimal Hexadecimal::LSL(int numShifts) {
     return hex;
 }
 
+*/
 
 std::ostream& operator<<(std::ostream& os, Hexadecimal& hex) {
-    os << hex.convToString();
+    os << "0x" << hex.convToString();
     return os;
-}
-
-Hexadecimal::~Hexadecimal() {
-    while(!data.empty()) {
-        data.pop_back();
-    }
 }

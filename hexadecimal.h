@@ -7,20 +7,19 @@
 
 class Hexadecimal {
 private:
-    int length;
-    std::vector<char> data;
+    uint32_t data;
 
 public:
     Hexadecimal();
     Hexadecimal(std::string input);
 
     std::string convToString();
-    void insertFiller(int num);
+    u_int32_t convToHexFull();
 
-    int getLength();
-    char getData(int val);
     int convToDec(char input);
     char convToHex(int input);
+
+    char getData();
     std::vector<bool> convToBinary();
 
     Hexadecimal operator+(Hexadecimal& inputHex2);
@@ -36,7 +35,7 @@ public:
     Hexadecimal LSL(int numShifts);
     friend std::ostream& operator<<(std::ostream& os, Hexadecimal& hex);
 
-    ~Hexadecimal();
+    ~Hexadecimal() {};
 };
 
 #include "hexadecimal.cpp"
