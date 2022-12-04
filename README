@@ -4,7 +4,9 @@ How to run:
 
 Working Process:
 
-    The file main.cpp will begin by creating the registers by initializing 8 empty hexadecimal values. It will then use a map to assign each register to its associated string to make accessing them easy. It will then open the input file and read over each line to get the operand and the input values. It will perform the operation as dictated by the operand and then print each register value. The hexidecimal files create the Hexidecimal class, whoose constructor is called by using a string argument. This class will store the length of the hexadecimal and the value of the hexidecimal as a char vector. It contains functions that allow it to convert hex to dec (and vice versa), perform operations, and return the hex as a string. All operator functions are the same as in project 2.
+    The file main.cpp will begin by creating the registers by initializing 8 empty u_int32_t values. It will then use a map to assign each register to its associated string to make accessing them easy. It will then open the input file and read over each line to get the operand and the input values. It will perform the operation as dictated by the operand and then print each register value. 
+    
+    There are many helper functions. The uppercase function will take a string and convert all characters to uppercase. convToDec and convToHex are used to convert between single char hex values and decimal values. convToData converts a hex string into a u_int32_t value, and convToString does the opposite.
 
 The final result should be:
 
@@ -54,4 +56,52 @@ The final result should be:
 
     LSL R6, R7, #1
     R0: 0xAEEBE94B  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
-    R4: 0x72DF9901  R5: 0xD235784A  R6: 0x7FFFFFFE  R7: 0x3FFFFFFF  `
+    R4: 0x72DF9901  R5: 0xD235784A  R6: 0x7FFFFFFE  R7: 0x3FFFFFFF
+
+    MOV R1, #0x72DF9901
+    R0: 0x00000000  R1: 0x72DF9901  R2: 0x00000000  R3: 0x00000000  
+    R4: 0x00000000  R5: 0x00000000  R6: 0x00000000  R7: 0x00000000  
+
+    MOV R2, #0x2E0B484A
+    R0: 0x00000000  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0x00000000  
+    R4: 0x00000000  R5: 0x00000000  R6: 0x00000000  R7: 0x00000000  
+
+    ADD R3, R1, R2
+    R0: 0x00000000  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
+    R4: 0x00000000  R5: 0x00000000  R6: 0x00000000  R7: 0x00000000  
+
+    SUB R4, R3, R2
+    R0: 0x00000000  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
+    R4: 0x72DF9901  R5: 0x00000000  R6: 0x00000000  R7: 0x00000000  
+
+    mov r0, #0xAAA5555
+    R0: 0x0AAA5555  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
+    R4: 0x72DF9901  R5: 0x00000000  R6: 0x00000000  R7: 0x00000000  
+
+    and r0, r0, r4
+    R0: 0x028A1101  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
+    R4: 0x72DF9901  R5: 0x00000000  R6: 0x00000000  R7: 0x00000000  
+
+    orr r0, r2, r3
+    R0: 0xAEEBE94B  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
+    R4: 0x72DF9901  R5: 0x00000000  R6: 0x00000000  R7: 0x00000000  
+
+    xor r5, r3, r4
+    R0: 0xAEEBE94B  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
+    R4: 0x72DF9901  R5: 0xD235784A  R6: 0x00000000  R7: 0x00000000  
+
+    MOV R6, #0xFFFFFFFF
+    R0: 0xAEEBE94B  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
+    R4: 0x72DF9901  R5: 0xD235784A  R6: 0xFFFFFFFF  R7: 0x00000000  
+
+    ASR R7, R6, #2
+    R0: 0xAEEBE94B  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
+    R4: 0x72DF9901  R5: 0xD235784A  R6: 0xFFFFFFFF  R7: 0xFFFFFFFF  
+
+    lsr R7, R6, #2
+    R0: 0xAEEBE94B  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
+    R4: 0x72DF9901  R5: 0xD235784A  R6: 0xFFFFFFFF  R7: 0x3FFFFFFF  
+
+    LSL R6, R7, #1
+    R0: 0xAEEBE94B  R1: 0x72DF9901  R2: 0x2E0B484A  R3: 0xA0EAE14B  
+    R4: 0x72DF9901  R5: 0xD235784A  R6: 0x7FFFFFFE  R7: 0x3FFFFFFF
