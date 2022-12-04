@@ -4,11 +4,13 @@
 #include <algorithm>
 #include <map>
 
-#include "hexadecimal.h"
-
 #define INPUT_FILE "Programming-Project-3.txt"
 
 void uppercase(std::string &input);
+int convToDec(char input);
+char convToHex(int input);
+u_int32_t convToData(std::string input);
+std::string convToString(u_int32_t input);
 
 int main() {
     // Opens the input file as defined above
@@ -20,19 +22,20 @@ int main() {
         return 0;
     }
     else {
+        
         std::string tp, operand, value1, value2, value3;
-        // Initializes each register with an empty (0x0000_0000) hexidecimal value
-        Hexadecimal r0("0x0");
-        Hexadecimal r1("0x0");
-        Hexadecimal r2("0x0");
-        Hexadecimal r3("0x0");
-        Hexadecimal r4("0x0");
-        Hexadecimal r5("0x0");
-        Hexadecimal r6("0x0");
-        Hexadecimal r7("0x0");
+        // Initializes each register with an empty (0) u_int32_t value
+        u_int32_t r0 = 0;
+        u_int32_t r1 = 0;
+        u_int32_t r2 = 0;
+        u_int32_t r3 = 0;
+        u_int32_t r4 = 0;
+        u_int32_t r5 = 0;
+        u_int32_t r6 = 0;
+        u_int32_t r7 = 0;
 
-        // Creates a map consisting of string and hexidecimals. This allows us to do registers.at(string) to access each register
-        std::map<std::string, Hexadecimal> registers;
+        // Creates a map consisting of string and u_int32_t. This allows us to do registers.at(string) to access each register
+        std::map<std::string, u_int32_t> registers;
         registers.insert(std::make_pair("R0", r0));
         registers.insert(std::make_pair("R1", r1));
         registers.insert(std::make_pair("R2", r2));
@@ -44,8 +47,8 @@ int main() {
 
         // Reiterates over the file to get each line
         while(getline(inFile, tp)) {
-            // Makes everything uppercase and splits each line into the operand/inputs
             std::cout << tp << std::endl;
+            // Makes everything uppercase and splits each line into the operand/inputs
             uppercase(tp);
             std::stringstream splitString(tp);
             splitString >> operand;
@@ -60,58 +63,57 @@ int main() {
             
             // Checks what the operand is and does the nessesary operation
             if(operand == "MOV") {
-                Hexadecimal temp(value2);
-                registers.at(value1) = temp;
+                registers.at(value1) = convToData(value2);
             }
-
+        
             else if(operand == "ADD") {
-                Hexadecimal temp = registers.at(value2) + registers.at(value3);
+                u_int32_t temp = registers.at(value2) + registers.at(value3);
                 registers.at(value1) = temp;
             }
 
             else if(operand == "SUB") {
-                Hexadecimal temp = registers.at(value2) - registers.at(value3);
+                u_int32_t temp = registers.at(value2) - registers.at(value3);
                 registers.at(value1) = temp;
             }
 
             else if(operand == "AND") {
-                Hexadecimal temp = registers.at(value2) & registers.at(value3);
+                u_int32_t temp = registers.at(value2) & registers.at(value3);
                 registers.at(value1) = temp;
             }
 
             else if(operand == "XOR") {
-                Hexadecimal temp = registers.at(value2) ^ registers.at(value3);
+                u_int32_t temp = registers.at(value2) ^ registers.at(value3);
                 registers.at(value1) = temp;
             }
 
             else if(operand == "ORR") {
-                Hexadecimal temp = registers.at(value2) | registers.at(value3);
+                u_int32_t temp = registers.at(value2) | registers.at(value3);
                 registers.at(value1) = temp;
             }
-
+            
             else if(operand == "ASR") {
-                Hexadecimal temp = registers.at(value2).ASR(stoi(value3));
-                registers.at(value1) = temp;
+                int32_t temp = registers.at(value2);
+                registers.at(value1) = temp>>stoi(value3);
             }
-
+            
             else if(operand == "LSR") {
-                Hexadecimal temp = registers.at(value2).LSR(stoi(value3));
-                registers.at(value1) = temp;
+                u_int32_t temp = registers.at(value2);
+                registers.at(value1) = temp>>stoi(value3);
             }
 
             else if(operand == "LSL") {
-                Hexadecimal temp = registers.at(value2).LSL(stoi(value3));
-                registers.at(value1) = temp;
+                u_int32_t temp = registers.at(value2);
+                registers.at(value1) = temp<<stoi(value3);
             }
-
+            
             else {
                 std::cout << "This opperand is not recognized" << std::endl;
             }
-
+            
             // Prints the name of each register followed by it's value
             int count = 0;
-            for (std::map<std::string,Hexadecimal>::iterator it = registers.begin(); it != registers.end(); it++) {
-                std::cout << it->first << ": " << it->second << "  ";
+            for (std::map<std::string,u_int32_t>::iterator it = registers.begin(); it != registers.end(); it++) {
+                std::cout << it->first << ": " << convToString(it->second) << "  ";
                 // Adds a line break after printing 4 registers to make it more readable
                 count++;
                 if (count == 4) {
@@ -131,5 +133,84 @@ int main() {
 void uppercase(std::string &input) {
     for (int i = 0; i < input.length(); i++) {
         input[i] = toupper(input[i]);
+    }
+}
+
+// Converts an input string to u_int32_t and returns it
+u_int32_t convToData(std::string input) {
+    u_int32_t data = 0;
+    int multVal = 1;
+    u_int32_t temp;
+    
+    // Starting at the back of the string, it will multiply the dec value of the char by the mult value and add it to a total
+    // The mult value multiplies by 16 every iteriation
+    for(int i = input.length()-2; i > 0; i--) {
+        temp = multVal * convToDec(input.at(i+1));
+        data += temp;
+        multVal *= 16;
+    }
+    return data;
+}
+
+// Converts an input u_int32_t value and returns it as a hexidecimal formatted string
+std::string convToString(u_int32_t input) {
+    std::string str;
+    for(int i = 0; i < 8; i++) {
+        u_int32_t temp = input % 16;
+        str.insert(0, 1, convToHex(temp));
+        input /= 16;
+    }
+    return "0x" + str;
+}
+
+// Converts an input hexidecimal char to its dec equivalent
+int convToDec(char input) {
+    switch (input) {
+        case 'A':
+            return 10;
+
+        case 'B':
+            return 11;
+
+        case 'C':
+            return 12;
+
+        case 'D':
+            return 13;
+
+        case 'E':
+            return 14;
+        
+        case 'F':
+            return 15;
+
+        default:
+            return input - '0';
+    }
+}
+
+// Converts an input dec to its hexidecimal char equivalent
+char convToHex(int input) {
+    switch (input) {
+        case 10:
+            return 'A';
+
+        case 11:
+            return 'B';
+
+        case 12:
+            return 'C';
+
+        case 13:
+            return 'D';
+
+        case 14:
+            return 'E';
+
+        case 15:
+            return 'F';
+
+        default:
+            return input + '0';
     }
 }
